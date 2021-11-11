@@ -44,6 +44,30 @@ class RequestClient(object):
         response = call_sync(self.request_impl.get_servertime())
         self.refresh_limits(response[1])
         return response[0]
+
+    def change_multi_assets_mode(self, multiAssetsMargin: 'boolean' = None) -> any:
+        """
+        Change Multi-Assets Mode (TRADE)
+
+        POST /fapi/v1/multiAssetsMargin (HMAC SHA256)
+
+        Change user's Multi-Assets mode (Multi-Assets Mode or Single-Asset Mode) on Every symbol
+        """
+        response = call_sync(self.request_impl.change_multi_assets_mode(multiAssetsMargin))
+        self.refresh_limits(response[1])
+        return response[0]
+
+    def get_multi_assets_mode(self) -> any:
+        """
+        Get Current Multi-Assets Mode (USER_DATA)
+
+        GET /fapi/v1/multiAssetsMargin (HMAC SHA256)
+
+        Get user's Multi-Assets mode (Multi-Assets Mode or Single-Asset Mode) on Every symbol
+        """
+        response = call_sync(self.request_impl.get_multi_assets_mode())
+        self.refresh_limits(response[1])
+        return response[0]
                
     def get_exchange_information(self) -> any:
         """
@@ -120,7 +144,7 @@ class RequestClient(object):
         self.refresh_limits(response[1])
         return response[0]
             
-    def get_mark_price(self, symbol: 'str' = None) -> any:
+    def get_mark_price(self, symbol: 'str') -> any:
         """
         Mark Price (MARKET_DATA)
 

@@ -7,6 +7,7 @@ from binance_f.impl.utils.timeservice import *
 from binance_f.model import *
 # For develop
 from binance_f.base.printobject import *
+from binance_f.model.multiassetsmode import MultiAssetsMode
 
 
 class RestApiRequestImpl(object):
@@ -105,6 +106,31 @@ class RestApiRequestImpl(object):
         print(request)
         PrintMix.print_data(request)
         print("=====================")
+        return request
+
+    def change_multi_assets_mode(self, multiAssetsMargin):
+        check_should_not_none(multiAssetsMargin, "multiAssetsMargin")
+        builder = UrlParamsBuilder()
+        builder.put_url("multiAssetsMargin", multiAssetsMargin)
+
+        request = self.__create_request_by_post_with_signature("/fapi/v1/multiAssetsMargin", builder)
+
+        def parse(json_wrapper):
+            result = CodeMsg.json_parse(json_wrapper)
+            return result
+
+        request.json_parser = parse
+        return request
+
+    def get_multi_assets_mode(self):
+        builder = UrlParamsBuilder()
+        request = self.__create_request_by_get_with_signature("/fapi/v1/multiAssetsMargin", builder)
+
+        def parse(json_wrapper):
+            result = MultiAssetsMode.json_parse(json_wrapper)
+            return result
+
+        request.json_parser = parse
         return request
         
     def get_servertime(self):
@@ -229,20 +255,14 @@ class RestApiRequestImpl(object):
         return request
 
     def get_mark_price(self, symbol):
+        check_should_not_none(symbol, "symbol")
         builder = UrlParamsBuilder()
         builder.put_url("symbol", symbol)
 
         request = self.__create_request_by_get("/fapi/v1/premiumIndex", builder)
 
         def parse(json_wrapper):
-            result = list()
-            if symbol:
-                result = MarkPrice.json_parse(json_wrapper)
-            else:
-                data_list = json_wrapper.convert_2_array()
-                for item in data_list.get_items():
-                    element = MarkPrice.json_parse(item)
-                    result.append(element)
+            result = MarkPrice.json_parse(json_wrapper)
             return result
 
         request.json_parser = parse
