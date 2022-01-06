@@ -22,6 +22,7 @@ class Order:
         self.activatePrice = None
         self.priceRate = None
         self.closePosition = None
+        self.time = None
 
     @staticmethod
     def json_parse(json_data):
@@ -47,5 +48,6 @@ class Order:
         result.activatePrice = json_data.get_float_or_default("activatePrice", None)
         result.priceRate = json_data.get_float_or_default("priceRate", None)
         result.closePosition = json_data.get_boolean("closePosition")
+        result.time = json_data.get_int("time")
 
         return result
