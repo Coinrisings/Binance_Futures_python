@@ -31,9 +31,9 @@ def get_limits_usage(response):
 def call_sync(request):
     if request.method == "GET":
         response = requests.get(request.host + request.url, headers=request.header)
+        print(response.text)
         limits = get_limits_usage(response)
         json_wrapper = parse_json_from_string(response.text)
-        print(response.text)
         check_response(json_wrapper)
         return (request.json_parser(json_wrapper),limits)
     elif request.method == "POST":
@@ -47,14 +47,14 @@ def call_sync(request):
         response = requests.delete(request.host + request.url, headers=request.header)
         limits = get_limits_usage(response)
         json_wrapper = parse_json_from_string(response.text)
-        print(response.text)
+        # print(response.text)
         check_response(json_wrapper)
         return (request.json_parser(json_wrapper),limits)
     elif request.method == "PUT":
         response = requests.put(request.host + request.url, headers=request.header)
         limits = get_limits_usage(response)
         json_wrapper = parse_json_from_string(response.text)
-        print(response.text)
+        # print(response.text)
         check_response(json_wrapper)
         return (request.json_parser(json_wrapper),limits)
 

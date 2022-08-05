@@ -629,3 +629,9 @@ class RequestClient(object):
         response = call_sync(self.request_impl.get_api_trading_stats(symbol))
         self.refresh_limits(response[1])
         return response[0]
+
+
+    def get_portfolli_account(self)->any:
+        response = call_sync(self.request_impl.get_portfolio_account())
+        print(response)
+        return response[0]
