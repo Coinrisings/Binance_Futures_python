@@ -1012,4 +1012,7 @@ class RestApiRequestImpl(object):
     def get_portfolio_account(self):
         builder = UrlParamsBuilder()
         request = self.__create_request_by_get_with_signature("/sapi/v1/portfolio/account", builder)
+        def parse(json_wrapper):
+            return json_wrapper
+        request.json_parser = parse
         return request
