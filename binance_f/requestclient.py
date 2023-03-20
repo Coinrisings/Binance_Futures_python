@@ -633,5 +633,4 @@ class RequestClient(object):
 
     def get_portfolli_account(self)->any:
         response = call_sync(self.request_impl.get_portfolio_account())
-        print(response)
         return response[0]
